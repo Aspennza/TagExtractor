@@ -5,10 +5,12 @@ import java.util.TreeSet;
 
 public class TagAnalyzer
 {
+    Set<String> keywords;
+    Set<String> stopWords;
 
-
-    Set<String> keywords = new TreeSet<>();
-    Set<String> stopWords = new TreeSet<>();
-
+    public TagAnalyzer() {
+        keywords = new TreeSet<>();
+        stopWords = new TreeSet<>();
+    }
 
 }

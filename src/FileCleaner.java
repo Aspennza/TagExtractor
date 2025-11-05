@@ -8,8 +8,6 @@ import java.util.TreeSet;
 
 import static java.nio.file.StandardOpenOption.CREATE;
 
-//COME BACK TO WRITING FILECLEANER
-
 public class FileCleaner
 {
     JFileChooser chooser;
@@ -27,7 +25,7 @@ public class FileCleaner
         words = new TreeSet<>();
     }
 
-    public TreeSet<String> readFile(Path file)
+    public Set<String> readFile(Path file)
     {
         try
         {
@@ -48,7 +46,13 @@ public class FileCleaner
             {
                 splitLines = l.split(" ");
 
-                //Come back to writing here
+                for(String word : splitLines)
+                {
+                    String cleanedWord = word.replaceAll("[^A-Za-z]", "").toLowerCase();
+                    if(!cleanedWord.isEmpty()) {
+                        words.add(cleanedWord);
+                    }
+                }
             }
         }
         catch (FileNotFoundException e)
@@ -61,31 +65,20 @@ public class FileCleaner
             System.out.println("An exception occurred.");
             e.printStackTrace();
         }
+
+        return words;
     }
 
     public void chooseFile()
     {
-        try
-        {
-            //call a method in the TagAnalyzer to display a prompt via the GUI
-            File workingDirectory = new File(System.getProperty("user.dir"));
-            chooser.setCurrentDirectory(workingDirectory);
+        //call a method in the TagAnalyzer to display a prompt via the GUI
+        File workingDirectory = new File(System.getProperty("user.dir"));
+        chooser.setCurrentDirectory(workingDirectory);
 
-            if(chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-                selectedFile = chooser.getSelectedFile();
-                Path file = selectedFile.toPath();
-                readFile(file);
-            }
-        }
-        catch (FileNotFoundException e)
-        {
-            System.out.println("The file couldn't be found.");
-            e.printStackTrace();
-        }
-        catch (IOException e)
-        {
-            System.out.println("An exception occurred.");
-            e.printStackTrace();
+        if(chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+            selectedFile = chooser.getSelectedFile();
+            Path file = selectedFile.toPath();
+            readFile(file);
         }
     }
 }
