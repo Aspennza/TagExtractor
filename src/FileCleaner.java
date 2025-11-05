@@ -16,6 +16,7 @@ public class FileCleaner
     ArrayList<String> lines;
     String[] splitLines;
     Set<String> words;
+    Set<String> stopWords;
 
     public FileCleaner()
     {
@@ -23,10 +24,13 @@ public class FileCleaner
         rec = "";
         lines = new ArrayList<>();
         words = new TreeSet<>();
+        stopWords = new TreeSet<>();
     }
 
     public Set<String> readFile(Path file)
     {
+        Set<String> tempSet = new TreeSet<>();
+
         try
         {
             InputStream in =
@@ -50,7 +54,7 @@ public class FileCleaner
                 {
                     String cleanedWord = word.replaceAll("[^A-Za-z]", "").toLowerCase();
                     if(!cleanedWord.isEmpty()) {
-                        words.add(cleanedWord);
+                        tempSet.add(cleanedWord);
                     }
                 }
             }
@@ -66,11 +70,13 @@ public class FileCleaner
             e.printStackTrace();
         }
 
-        return words;
+        return tempSet;
     }
 
-    public void chooseFile()
+    public Set<String> chooseFile()
     {
+        Set<String> tempSet = new TreeSet<>();
+
         //call a method in the TagAnalyzer to display a prompt via the GUI
         File workingDirectory = new File(System.getProperty("user.dir"));
         chooser.setCurrentDirectory(workingDirectory);
@@ -78,7 +84,61 @@ public class FileCleaner
         if(chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
             selectedFile = chooser.getSelectedFile();
             Path file = selectedFile.toPath();
-            readFile(file);
+            tempSet = readFile(file);
         }
+        return tempSet;
+    }
+
+    public Set<String> chooseStopWords()
+    {
+        Set<String> tempSet = new TreeSet<>();
+
+        //call a method in the TagAnalyzer to display a prompt via the GUI
+        File workingDirectory = new File(System.getProperty("user.dir"));
+        chooser.setCurrentDirectory(workingDirectory);
+
+        if(chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+            selectedFile = chooser.getSelectedFile();
+            Path file = selectedFile.toPath();
+            tempSet = readStopWords(file);
+        }
+        return tempSet;
+    }
+
+    public Set<String> readStopWords(Path file)
+    {
+        Set<String> tempSet = new TreeSet<>();
+
+        try
+        {
+            InputStream in =
+                    new BufferedInputStream(Files.newInputStream(file, CREATE));
+            BufferedReader reader =
+                    new BufferedReader(new InputStreamReader(in));
+
+            while(reader.ready())
+            {
+                tempSet.add(reader.readLine());
+            }
+            reader.close();
+            //call a method in the GUI to notify the user the file has been read
+        }
+        catch (FileNotFoundException e)
+        {
+            System.out.println("The file couldn't be found.");
+            e.printStackTrace();
+        }
+        catch (IOException e)
+        {
+            System.out.println("An exception occurred.");
+            e.printStackTrace();
+        }
+
+        return tempSet;
+    }
+
+    public Set<String> removeStopWords()
+    {
+
     }
 }

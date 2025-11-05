@@ -1,4 +1,6 @@
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 //COME BACK TO WRITING FILECLEANER
@@ -6,11 +8,17 @@ import java.util.TreeSet;
 public class TagAnalyzer
 {
     Set<String> keywords;
-    Set<String> stopWords;
+
+    Map<String, Integer> wordFreq;
 
     public TagAnalyzer() {
         keywords = new TreeSet<>();
-        stopWords = new TreeSet<>();
+        wordFreq = new TreeMap<>();
+    }
+
+    //public Map<String, Integer> wordFrequency()
+    {
+
     }
 
 }
