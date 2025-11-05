@@ -139,6 +139,11 @@ public class FileCleaner
 
     public Set<String> removeStopWords()
     {
+        words = chooseFile();
+        stopWords = chooseStopWords();
 
+        words.removeAll(stopWords);
+
+        return words;
     }
 }
