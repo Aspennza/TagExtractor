@@ -38,8 +38,7 @@ public class ControlPnl extends JPanel
             if(selection == JOptionPane.YES_OPTION)
             {
                 JOptionPane.showMessageDialog(null, "Resetting...");
-
-                //call a method from taganalyzer
+                analyzer.resetProgram();
             } else {
                 JOptionPane.showMessageDialog(null, "Your existing data will remain intact.");
             }

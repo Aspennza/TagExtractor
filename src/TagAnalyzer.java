@@ -36,6 +36,7 @@ public class TagAnalyzer
         wordFreq = cleaner.removeStopWords(wordFreq, stopWords);
 
         filePnl.getFileTF().setText(cleaner.getSelectedFile().getName());
+        filePnl.getSelectBtn().setEnabled(false);
 
         Set<String> keySet = wordFreq.keySet();
 
@@ -115,4 +116,12 @@ public class TagAnalyzer
         frame.setVisible(true);
     }
 
+    public void resetProgram()
+    {
+        filePnl.getFileTF().setText("");
+        filePnl.getSelectBtn().setEnabled(true);
+        tagPnl.getTagTA().setText("");
+        wordFreq.clear();
+        cleaner.resetCleaner();
+    }
 }

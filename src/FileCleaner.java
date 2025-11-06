@@ -11,7 +11,6 @@ public class FileCleaner
     private JFileChooser chooser;
     private File selectedFile;
     private String rec;
-    private String[] splitLines;
 
     public FileCleaner()
     {
@@ -22,6 +21,7 @@ public class FileCleaner
     public Map<String, Integer> readFile(Path file)
     {
         Map<String, Integer> tempMap = new TreeMap<>();
+        String[] splitLines;
 
         try
         {
@@ -127,6 +127,14 @@ public class FileCleaner
         return result;
     }
 
+    public void resetCleaner()
+    {
+        selectedFile = null;
+        rec = "";
+        chooser.setSelectedFile(null);
+        chooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
+    }
+
     public JFileChooser getChooser() {
         return chooser;
     }
@@ -137,9 +145,5 @@ public class FileCleaner
 
     public String getRec() {
         return rec;
-    }
-
-    public String[] getSplitLines() {
-        return splitLines;
     }
 }
