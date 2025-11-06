@@ -81,10 +81,9 @@ public class FileCleaner
         return tempMap;
     }
 
-    //MUST RESOLVE THIS!!!
     public Set<String> chooseStopWords()
     {
-        Map<String, Integer> tempMap = new TreeMap<>();
+        Set<String> tempSet = new TreeSet<>();
 
         //call a method in the TagAnalyzer to display a prompt via the GUI
         File workingDirectory = new File(System.getProperty("user.dir"));
@@ -93,21 +92,19 @@ public class FileCleaner
         if(chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
             selectedFile = chooser.getSelectedFile();
             Path file = selectedFile.toPath();
-            tempMap = readFile(file);
+            tempSet = readStopWords(file);
         }
-        return tempMap;
+        return tempSet;
     }
 
-    public Set<String> readStopWords()
+    public Set<String> readStopWords(Path file)
     {
-        //call a method in the TagAnalyzer to display a prompt via the GUI
-        String filePath = "src/English_Stop_Words.txt";
         Set<String> tempSet = new TreeSet<>();
 
         try
         {
             InputStream in =
-                    new BufferedInputStream(Files.newInputStream(Path.of(filePath), CREATE));
+                    new BufferedInputStream(Files.newInputStream(file, CREATE));
             BufferedReader reader =
                     new BufferedReader(new InputStreamReader(in));
 
@@ -116,7 +113,6 @@ public class FileCleaner
                 tempSet.add(reader.readLine());
             }
             reader.close();
-            //call a method in the GUI to notify the user the file has been read
         }
         catch (FileNotFoundException e)
         {

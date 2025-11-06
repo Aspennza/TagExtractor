@@ -27,13 +27,16 @@ public class TagAnalyzer
     {
         wordFreq = new TreeMap<>();
         cleaner = new FileCleaner();
+        saver = new FileSaver();
         generateFrame();
     }
 
     public Map<String, Integer> outputMap()
     {
+        JOptionPane.showMessageDialog(null, "First, choose the file you want to extract tags from.");
         wordFreq = cleaner.chooseFile();
-        stopWords = cleaner.readStopWords();
+        JOptionPane.showMessageDialog(null, "Now, please select the file with words you want to remove.");
+        stopWords = cleaner.chooseStopWords();
         wordFreq = cleaner.removeStopWords(wordFreq, stopWords);
 
         filePnl.getFileTF().setText(cleaner.getSelectedFile().getName());
@@ -110,7 +113,7 @@ public class TagAnalyzer
         controlPnl = new ControlPnl(this);
         mainPnl.add(controlPnl, gbc4);
 
-        frame.setSize(screenWidth * 3/4, screenHeight * 3/4);
+        frame.setSize(screenWidth * 3 / 4, screenHeight * 3 / 4);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("Tag Extractor");
@@ -125,15 +128,15 @@ public class TagAnalyzer
         int selection = JOptionPane.showOptionDialog(null, "What format would you like to save your file to?", "Save File", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, formatOptions, formatOptions[0]);
 
         //This algorithm determines whether to reset the program based on the user's input
-        if(selection == JOptionPane.YES_OPTION)
+        if(selection == 0)
         {
             saver.saveFile(wordFreq, 0);
             JOptionPane.showMessageDialog(null, "Saving file...");
-        } else if(selection == JOptionPane.NO_OPTION)
+        } else if(selection == 1)
         {
             saver.saveFile(wordFreq, 1);
             JOptionPane.showMessageDialog(null, "Saving file...");
-        } else if (selection == JOptionPane.CANCEL_OPTION)
+        } else if (selection == 2)
         {
             saver.saveFile(wordFreq, 2);
             JOptionPane.showMessageDialog(null, "Saving file...");
@@ -147,7 +150,7 @@ public class TagAnalyzer
         filePnl.getFileTF().setText("");
         filePnl.getSelectBtn().setEnabled(true);
         tagPnl.getTagTA().setText("");
-        wordFreq.clear();
+        wordFreq = new TreeMap<>();
         cleaner.resetCleaner();
 
     }
