@@ -6,7 +6,6 @@ public class Main
     public static void main(String[] args)
     {
         TagAnalyzer analyzer = new TagAnalyzer();
-
-        System.out.println(analyzer.findWordFrequency());
+        analyzer.start();
     }
 }

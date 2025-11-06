@@ -17,7 +17,7 @@ public class ControlPnl extends JPanel
         setLayout(new GridLayout(1, 3));
         setBorder(new CompoundBorder(new EtchedBorder(), new EmptyBorder(10, 10, 10, 10)));
 
-        saveFileBtn = new JButton("Save File");
+        saveFileBtn = new JButton("Save Tag List");
         reRunBtn = new JButton("Re-run Program");
         quitBtn = new JButton("Quit");
 

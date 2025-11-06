@@ -11,18 +11,12 @@ public class FileCleaner
     private JFileChooser chooser;
     private File selectedFile;
     private String rec;
-    private ArrayList<String> lines;
     private String[] splitLines;
-    private Map<String, Integer> words;
-    private Set<String> stopWords;
 
     public FileCleaner()
     {
         chooser = new JFileChooser();
         rec = "";
-        lines = new ArrayList<>();
-        words = new TreeMap<>();
-        stopWords = new TreeSet<>();
     }
 
     public Map<String, Integer> readFile(Path file)
@@ -44,7 +38,7 @@ public class FileCleaner
                     continue;
                 }
 
-                splitLines = rec.split(" ");
+                splitLines = rec.split("\\s+|--");
 
                     for(String word : splitLines)
                     {
@@ -88,30 +82,16 @@ public class FileCleaner
         return tempMap;
     }
 
-    public Set<String> chooseStopWords()
+    public Set<String> readStopWords()
     {
-        Set<String> tempSet = new TreeSet<>();
-
         //call a method in the TagAnalyzer to display a prompt via the GUI
-        File workingDirectory = new File(System.getProperty("user.dir"));
-        chooser.setCurrentDirectory(workingDirectory);
-
-        if(chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-            selectedFile = chooser.getSelectedFile();
-            Path file = selectedFile.toPath();
-            tempSet = readStopWords(file);
-        }
-        return tempSet;
-    }
-
-    public Set<String> readStopWords(Path file)
-    {
+        String filePath = "src/English_Stop_Words.txt";
         Set<String> tempSet = new TreeSet<>();
 
         try
         {
             InputStream in =
-                    new BufferedInputStream(Files.newInputStream(file, CREATE));
+                    new BufferedInputStream(Files.newInputStream(Path.of(filePath), CREATE));
             BufferedReader reader =
                     new BufferedReader(new InputStreamReader(in));
 
@@ -138,11 +118,13 @@ public class FileCleaner
 
     public Map<String, Integer> removeStopWords(Map<String, Integer> wordMap, Set<String> stopWordSet)
     {
-        for(String stopWord : stopWords) {
-            words.remove(stopWord);
+        Map<String, Integer> result = new TreeMap<>(wordMap);
+
+        for(String stopWord : stopWordSet) {
+            result.remove(stopWord);
         }
 
-        return words;
+        return result;
     }
 
     public JFileChooser getChooser() {
@@ -157,19 +139,7 @@ public class FileCleaner
         return rec;
     }
 
-    public ArrayList<String> getLines() {
-        return lines;
-    }
-
     public String[] getSplitLines() {
         return splitLines;
-    }
-
-    public Map<String, Integer> getWords() {
-        return words;
-    }
-
-    public Set<String> getStopWords() {
-        return stopWords;
     }
 }
