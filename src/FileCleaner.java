@@ -87,7 +87,6 @@ public class FileCleaner
     {
         Set<String> tempSet = new TreeSet<>();
 
-        //call a method in the TagAnalyzer to display a prompt via the GUI
         File workingDirectory = new File(System.getProperty("user.dir"));
         chooser2.setCurrentDirectory(workingDirectory);
 

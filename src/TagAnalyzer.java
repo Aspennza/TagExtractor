@@ -135,19 +135,19 @@ public class TagAnalyzer
         int selection = JOptionPane.showOptionDialog(null, "What format would you like to save your file to?", "Save File", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, formatOptions, formatOptions[0]);
 
         //This algorithm determines whether to reset the program based on the user's input
-        if(selection == 0 && wordFreq != null && !wordFreq.isEmpty())
+        if(selection == 0 && wordFreq != null && !wordFreq.isEmpty() && stopWords != null && !stopWords.isEmpty())
         {
             saver.saveFile(wordFreq, 0);
             JOptionPane.showMessageDialog(null, "Saving file...");
-        } else if(selection == 1 && wordFreq != null && !wordFreq.isEmpty())
+        } else if(selection == 1 && wordFreq != null && !wordFreq.isEmpty() && stopWords != null && !stopWords.isEmpty())
         {
             saver.saveFile(wordFreq, 1);
             JOptionPane.showMessageDialog(null, "Saving file...");
-        } else if (selection == 2 && wordFreq != null && !wordFreq.isEmpty())
+        } else if (selection == 2 && wordFreq != null && !wordFreq.isEmpty() && stopWords != null && !stopWords.isEmpty())
         {
             saver.saveFile(wordFreq, 2);
             JOptionPane.showMessageDialog(null, "Saving file...");
-        } else if (wordFreq == null || wordFreq.isEmpty())
+        } else if (wordFreq == null || wordFreq.isEmpty() || stopWords == null || stopWords.isEmpty())
         {
             JOptionPane.showMessageDialog(null, "You must select both a text file and a stop words file before saving.");
         }
