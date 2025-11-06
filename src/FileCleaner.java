@@ -146,4 +146,32 @@ public class FileCleaner
 
         return words;
     }
+
+    public JFileChooser getChooser() {
+        return chooser;
+    }
+
+    public File getSelectedFile() {
+        return selectedFile;
+    }
+
+    public String getRec() {
+        return rec;
+    }
+
+    public ArrayList<String> getLines() {
+        return lines;
+    }
+
+    public String[] getSplitLines() {
+        return splitLines;
+    }
+
+    public Map<String, Integer> getWords() {
+        return words;
+    }
+
+    public Set<String> getStopWords() {
+        return stopWords;
+    }
 }
