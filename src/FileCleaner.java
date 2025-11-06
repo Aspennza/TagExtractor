@@ -69,6 +69,22 @@ public class FileCleaner
     {
         Map<String, Integer> tempMap = new TreeMap<>();
 
+        //call a method in the TagAnalyzer to display a prompt via the GUI
+        File workingDirectory = new File(System.getProperty("user.dir"));
+        chooser.setCurrentDirectory(workingDirectory);
+
+        if(chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+            selectedFile = chooser.getSelectedFile();
+            Path file = selectedFile.toPath();
+            tempMap = readFile(file);
+        }
+        return tempMap;
+    }
+
+    //MUST RESOLVE THIS!!!
+    public Set<String> chooseStopWords()
+    {
+        Map<String, Integer> tempMap = new TreeMap<>();
 
         //call a method in the TagAnalyzer to display a prompt via the GUI
         File workingDirectory = new File(System.getProperty("user.dir"));

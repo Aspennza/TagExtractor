@@ -21,6 +21,7 @@ public class TagAnalyzer
     private Set<String> stopWords;
     private Map<String, Integer> wordFreq;
     private FileCleaner cleaner;
+    private FileSaver saver;
 
     public void start()
     {
@@ -116,6 +117,31 @@ public class TagAnalyzer
         frame.setVisible(true);
     }
 
+    public void saveFile()
+    {
+        Object[] formatOptions = {"CSV", "JSON", "XML"};
+
+        //This int tracks whether the user confirmed or denied they wanted to replay
+        int selection = JOptionPane.showOptionDialog(null, "What format would you like to save your file to?", "Save File", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, formatOptions, formatOptions[0]);
+
+        //This algorithm determines whether to reset the program based on the user's input
+        if(selection == JOptionPane.YES_OPTION)
+        {
+            saver.saveFile(wordFreq, 0);
+            JOptionPane.showMessageDialog(null, "Saving file...");
+        } else if(selection == JOptionPane.NO_OPTION)
+        {
+            saver.saveFile(wordFreq, 1);
+            JOptionPane.showMessageDialog(null, "Saving file...");
+        } else if (selection == JOptionPane.CANCEL_OPTION)
+        {
+            saver.saveFile(wordFreq, 2);
+            JOptionPane.showMessageDialog(null, "Saving file...");
+        } else {
+            JOptionPane.showMessageDialog(null, "The dialog was closed without a selection. Save canceled.");
+        }
+    }
+
     public void resetProgram()
     {
         filePnl.getFileTF().setText("");
@@ -123,5 +149,6 @@ public class TagAnalyzer
         tagPnl.getTagTA().setText("");
         wordFreq.clear();
         cleaner.resetCleaner();
+
     }
 }

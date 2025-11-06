@@ -11,9 +11,11 @@ public class ControlPnl extends JPanel
     JButton reRunBtn;
     JButton quitBtn;
     TagAnalyzer analyzer;
+    FileSaver saver;
 
     public ControlPnl(TagAnalyzer analyzer) {
         this.analyzer = analyzer;
+        this.saver = saver;
         setLayout(new GridLayout(1, 3));
         setBorder(new CompoundBorder(new EtchedBorder(), new EmptyBorder(10, 10, 10, 10)));
 
@@ -24,8 +26,7 @@ public class ControlPnl extends JPanel
         add(saveFileBtn);
 
         saveFileBtn.addActionListener((ActionEvent ae) -> {
-            JOptionPane.showMessageDialog(null, "Saving file...");
-            //call a method from taganalyzer
+            analyzer.saveFile();
         });
 
         add(reRunBtn);
