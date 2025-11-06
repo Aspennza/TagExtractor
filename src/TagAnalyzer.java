@@ -3,7 +3,7 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-//Functionally, FileCleaner will be the model, this file will be the view, a third file will be the controller?
+//Functionally, FileCleaner will be the model, this file will be the control interacting with the view panels?
 //i need a title panel
 //i need a panel for displaying the name of the selected file
 //i need a panel for displaying the tags and the frequencies

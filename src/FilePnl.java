@@ -16,6 +16,7 @@ public class FilePnl extends JPanel
 
         fileLbl = new JLabel("Chosen File:");
         fileTF = new JTextField(30);
+        fileTF.setEditable(false);
 
         add(fileLbl);
         add(fileTF);
