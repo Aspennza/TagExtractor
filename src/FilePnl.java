@@ -19,22 +19,43 @@ public class FilePnl extends JPanel
     public FilePnl(TagAnalyzer analyzer)
     {
         this.analyzer = analyzer;
-        setLayout(new GridLayout(1, 3));
+        setLayout(new GridBagLayout());
         setBorder(new CompoundBorder(new EtchedBorder(), new EmptyBorder(10, 10, 10, 10)));
+
+        GridBagConstraints gbc1 = new GridBagConstraints();
+        gbc1.gridx = 0;
+        gbc1.gridy = 0;
+        gbc1.gridwidth = 1;
+        gbc1.gridheight = 1;
+        gbc1.fill = GridBagConstraints.BOTH;
+        GridBagConstraints gbc2 = new GridBagConstraints();
+        gbc2.gridx = 1;
+        gbc2.gridy = 0;
+        gbc2.gridwidth = 1;
+        gbc2.gridheight = 1;
+        gbc2.fill = GridBagConstraints.NONE;
+        gbc2.anchor = GridBagConstraints.EAST;
+        gbc2.insets = new Insets(15, 15, 15, 15);
+        GridBagConstraints gbc3 = new GridBagConstraints();
+        gbc3.gridx = 2;
+        gbc3.gridy = 0;
+        gbc3.gridwidth = 1;
+        gbc3.gridheight = 1;
+        gbc3.fill = GridBagConstraints.BOTH;
 
         fileLbl = new JLabel("Chosen File:");
         fileTF = new JTextField(30);
         fileTF.setEditable(false);
         selectBtn = new JButton("Choose a file");
-        add(selectBtn);
+        add(selectBtn, gbc1);
 
         selectBtn.addActionListener((ActionEvent ae) -> {
             JOptionPane.showMessageDialog(null, "Please select the file whose tags you want to extract.");
             analyzer.outputMap();
         });
 
-        add(fileLbl);
-        add(fileTF);
+        add(fileLbl, gbc2);
+        add(fileTF, gbc3);
     }
 
     public JLabel getFileLbl() {
