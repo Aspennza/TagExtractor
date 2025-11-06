@@ -2,9 +2,7 @@ import javax.swing.*;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 import static java.nio.file.StandardOpenOption.CREATE;
 
@@ -15,7 +13,7 @@ public class FileCleaner
     String rec;
     ArrayList<String> lines;
     String[] splitLines;
-    Set<String> words;
+    Map<String, Integer> words;
     Set<String> stopWords;
 
     public FileCleaner()
@@ -23,13 +21,13 @@ public class FileCleaner
         chooser = new JFileChooser();
         rec = "";
         lines = new ArrayList<>();
-        words = new TreeSet<>();
+        words = new TreeMap<>();
         stopWords = new TreeSet<>();
     }
 
-    public Set<String> readFile(Path file)
+    public Map<String, Integer> readFile(Path file)
     {
-        Set<String> tempSet = new TreeSet<>();
+        Map<String, Integer> tempMap = new TreeMap<>();
 
         try
         {
@@ -41,23 +39,23 @@ public class FileCleaner
             while(reader.ready())
             {
                 rec = reader.readLine();
-                lines.add(rec);
+
+                if (rec == null || rec.isBlank()) {
+                    continue;
+                }
+
+                splitLines = rec.split(" ");
+
+                    for(String word : splitLines)
+                    {
+                        String cleanedWord = word.replaceAll("[^A-Za-z]", "").toLowerCase();
+                        if (!cleanedWord.isEmpty()) {
+                            tempMap.merge(cleanedWord, 1, Integer::sum);
+                        }
+                    }
             }
             reader.close();
             //call a method in the GUI to notify the user the file has been read
-
-            for(String l : lines)
-            {
-                splitLines = l.split(" ");
-
-                for(String word : splitLines)
-                {
-                    String cleanedWord = word.replaceAll("[^A-Za-z]", "").toLowerCase();
-                    if(!cleanedWord.isEmpty()) {
-                        tempSet.add(cleanedWord);
-                    }
-                }
-            }
         }
         catch (FileNotFoundException e)
         {
@@ -70,12 +68,12 @@ public class FileCleaner
             e.printStackTrace();
         }
 
-        return tempSet;
+        return tempMap;
     }
 
-    public Set<String> chooseFile()
+    public Map<String, Integer> chooseFile()
     {
-        Set<String> tempSet = new TreeSet<>();
+        Map<String, Integer> tempMap = new TreeMap<>();
 
         //call a method in the TagAnalyzer to display a prompt via the GUI
         File workingDirectory = new File(System.getProperty("user.dir"));
@@ -84,9 +82,9 @@ public class FileCleaner
         if(chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
             selectedFile = chooser.getSelectedFile();
             Path file = selectedFile.toPath();
-            tempSet = readFile(file);
+            tempMap = readFile(file);
         }
-        return tempSet;
+        return tempMap;
     }
 
     public Set<String> chooseStopWords()
@@ -137,12 +135,14 @@ public class FileCleaner
         return tempSet;
     }
 
-    public Set<String> removeStopWords()
+    public Map<String, Integer> removeStopWords()
     {
         words = chooseFile();
         stopWords = chooseStopWords();
 
-        words.removeAll(stopWords);
+        for(String stopWord : stopWords) {
+            words.remove(stopWord);
+        }
 
         return words;
     }

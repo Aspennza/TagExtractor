@@ -3,22 +3,18 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-//COME BACK TO WRITING FILECLEANER
+//Use the set as a filter for the map!! Don't store the words in the set
 
 public class TagAnalyzer
 {
     Set<String> keywords;
-
     Map<String, Integer> wordFreq;
+    FileCleaner cleaner;
 
     public TagAnalyzer() {
-        keywords = new TreeSet<>();
         wordFreq = new TreeMap<>();
-    }
-
-    //public Map<String, Integer> wordFrequency()
-    {
-
+        cleaner = new FileCleaner();
+        wordFreq = cleaner.removeStopWords();
     }
 
 }

@@ -5,10 +5,8 @@ public class Main
 {
     public static void main(String[] args)
     {
-        FileCleaner cleaner = new FileCleaner();
-        Set<String> exampleSet = new TreeSet<>();
+        TagAnalyzer analyzer = new TagAnalyzer();
 
-        exampleSet = cleaner.chooseFile();
-        System.out.println(exampleSet);
+        System.out.println(analyzer.findWordFrequency());
     }
 }
