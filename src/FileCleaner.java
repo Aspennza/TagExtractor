@@ -8,13 +8,13 @@ import static java.nio.file.StandardOpenOption.CREATE;
 
 public class FileCleaner
 {
-    JFileChooser chooser;
-    File selectedFile;
-    String rec;
-    ArrayList<String> lines;
-    String[] splitLines;
-    Map<String, Integer> words;
-    Set<String> stopWords;
+    private JFileChooser chooser;
+    private File selectedFile;
+    private String rec;
+    private ArrayList<String> lines;
+    private String[] splitLines;
+    private Map<String, Integer> words;
+    private Set<String> stopWords;
 
     public FileCleaner()
     {
@@ -74,6 +74,7 @@ public class FileCleaner
     public Map<String, Integer> chooseFile()
     {
         Map<String, Integer> tempMap = new TreeMap<>();
+
 
         //call a method in the TagAnalyzer to display a prompt via the GUI
         File workingDirectory = new File(System.getProperty("user.dir"));
@@ -135,11 +136,8 @@ public class FileCleaner
         return tempSet;
     }
 
-    public Map<String, Integer> removeStopWords()
+    public Map<String, Integer> removeStopWords(Map<String, Integer> wordMap, Set<String> stopWordSet)
     {
-        words = chooseFile();
-        stopWords = chooseStopWords();
-
         for(String stopWord : stopWords) {
             words.remove(stopWord);
         }
