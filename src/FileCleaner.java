@@ -9,12 +9,14 @@ import static java.nio.file.StandardOpenOption.CREATE;
 public class FileCleaner
 {
     private JFileChooser chooser;
+    private JFileChooser chooser2;
     private File selectedFile;
     private String rec;
 
     public FileCleaner()
     {
         chooser = new JFileChooser();
+        chooser2 = new JFileChooser();
         rec = "";
     }
 
@@ -87,10 +89,10 @@ public class FileCleaner
 
         //call a method in the TagAnalyzer to display a prompt via the GUI
         File workingDirectory = new File(System.getProperty("user.dir"));
-        chooser.setCurrentDirectory(workingDirectory);
+        chooser2.setCurrentDirectory(workingDirectory);
 
-        if(chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-            selectedFile = chooser.getSelectedFile();
+        if(chooser2.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+            selectedFile = chooser2.getSelectedFile();
             Path file = selectedFile.toPath();
             tempSet = readStopWords(file);
         }

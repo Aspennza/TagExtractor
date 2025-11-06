@@ -50,7 +50,6 @@ public class FilePnl extends JPanel
         add(selectBtn, gbc1);
 
         selectBtn.addActionListener((ActionEvent ae) -> {
-            JOptionPane.showMessageDialog(null, "Please select the file whose tags you want to extract.");
             analyzer.outputMap();
         });
 

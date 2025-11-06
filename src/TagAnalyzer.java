@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -22,6 +23,7 @@ public class TagAnalyzer
     private Map<String, Integer> wordFreq;
     private FileCleaner cleaner;
     private FileSaver saver;
+    private File originalFile;
 
     public void start()
     {
@@ -33,22 +35,27 @@ public class TagAnalyzer
 
     public Map<String, Integer> outputMap()
     {
-        JOptionPane.showMessageDialog(null, "First, choose the file you want to extract tags from.");
+        JOptionPane.showMessageDialog(null, "First, choose the file you want to extract tags from. Then, select the file with the words you want to remove.");
         wordFreq = cleaner.chooseFile();
-        JOptionPane.showMessageDialog(null, "Now, please select the file with words you want to remove.");
-        stopWords = cleaner.chooseStopWords();
-        wordFreq = cleaner.removeStopWords(wordFreq, stopWords);
+        originalFile = cleaner.getSelectedFile();
 
-        filePnl.getFileTF().setText(cleaner.getSelectedFile().getName());
-        filePnl.getSelectBtn().setEnabled(false);
-
-        Set<String> keySet = wordFreq.keySet();
-
-        for(String key : keySet)
+        if(wordFreq != null && !wordFreq.isEmpty())
         {
-            tagPnl.getTagTA().append("Word: " + key + "; Frequency: " + wordFreq.get(key) + "\n");
-        }
+            stopWords = cleaner.chooseStopWords();
+            if(stopWords != null && !stopWords.isEmpty())
+            {
+                wordFreq = cleaner.removeStopWords(wordFreq, stopWords);
+                filePnl.getFileTF().setText(originalFile.getName());
+                filePnl.getSelectBtn().setEnabled(false);
 
+                Set<String> keySet = wordFreq.keySet();
+
+                for(String key : keySet)
+                {
+                    tagPnl.getTagTA().append("Word: " + key + "; Frequency: " + wordFreq.get(key) + "\n");
+                }
+            }
+        }
         return wordFreq;
     }
 
@@ -128,19 +135,23 @@ public class TagAnalyzer
         int selection = JOptionPane.showOptionDialog(null, "What format would you like to save your file to?", "Save File", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, formatOptions, formatOptions[0]);
 
         //This algorithm determines whether to reset the program based on the user's input
-        if(selection == 0)
+        if(selection == 0 && wordFreq != null && !wordFreq.isEmpty())
         {
             saver.saveFile(wordFreq, 0);
             JOptionPane.showMessageDialog(null, "Saving file...");
-        } else if(selection == 1)
+        } else if(selection == 1 && wordFreq != null && !wordFreq.isEmpty())
         {
             saver.saveFile(wordFreq, 1);
             JOptionPane.showMessageDialog(null, "Saving file...");
-        } else if (selection == 2)
+        } else if (selection == 2 && wordFreq != null && !wordFreq.isEmpty())
         {
             saver.saveFile(wordFreq, 2);
             JOptionPane.showMessageDialog(null, "Saving file...");
-        } else {
+        } else if (wordFreq == null || wordFreq.isEmpty())
+        {
+            JOptionPane.showMessageDialog(null, "You must select both a text file and a stop words file before saving.");
+        }
+        else {
             JOptionPane.showMessageDialog(null, "The dialog was closed without a selection. Save canceled.");
         }
     }
@@ -152,6 +163,5 @@ public class TagAnalyzer
         tagPnl.getTagTA().setText("");
         wordFreq = new TreeMap<>();
         cleaner.resetCleaner();
-
     }
 }
