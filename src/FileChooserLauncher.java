@@ -4,7 +4,7 @@ import java.nio.file.Path;
 
 public class FileChooserLauncher
 {
-    private final JFileChooser chooser;
+    private JFileChooser chooser;
 
     public FileChooserLauncher() {
         chooser = new JFileChooser();
@@ -21,7 +21,7 @@ public class FileChooserLauncher
     }
 
     public void resetChooser() {
-        chooser.setSelectedFile(null);
+        chooser = new JFileChooser();
         chooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
     }
 }
