@@ -1,7 +1,4 @@
-import java.util.Set;
-import java.util.TreeSet;
-
-public class Main
+public class TagAnalyzerRunner
 {
     public static void main(String[] args)
     {
