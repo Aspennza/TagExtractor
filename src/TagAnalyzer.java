@@ -5,8 +5,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-//Functionally, FileCleaner will be the model, this file will be the control interacting with the view panels?
-//finish programming
 //do Junit
 //do javadoc
 //do UML
