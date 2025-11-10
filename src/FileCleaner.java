@@ -69,12 +69,7 @@ public class FileCleaner
             while(reader.ready())
             {
                 String line = reader.readLine();
-
-                String cleanedLine = line.replaceAll("[^A-Za-z]", "").toLowerCase();
-
-                if(!cleanedLine.isEmpty()) {
-                    tempSet.add(cleanedLine);
-                }
+                tempSet.add(line);
             }
             reader.close();
         }
