@@ -9,7 +9,6 @@ import java.util.TreeMap;
 //do Junit
 //do javadoc
 //do UML
-//Use the set as a filter for the map!! Don't store the words in the set
 
 public class TagAnalyzer
 {

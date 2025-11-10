@@ -24,4 +24,8 @@ public class FileChooserLauncher
         chooser = new JFileChooser();
         chooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
     }
+
+    public JFileChooser getChooser() {
+        return chooser;
+    }
 }
