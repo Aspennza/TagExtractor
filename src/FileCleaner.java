@@ -8,19 +8,8 @@ import static java.nio.file.StandardOpenOption.CREATE;
 
 public class FileCleaner
 {
-    private JFileChooser chooser;
-    private JFileChooser chooser2;
-    private File selectedFile;
-    private String rec;
 
-    public FileCleaner()
-    {
-        chooser = new JFileChooser();
-        chooser2 = new JFileChooser();
-        rec = "";
-    }
-
-    public Map<String, Integer> readFile(Path file)
+    public Map<String, Integer> readFile(Path file, Set<String> stopWords)
     {
         Map<String, Integer> tempMap = new TreeMap<>();
         String[] splitLines;
@@ -28,13 +17,13 @@ public class FileCleaner
         try
         {
             InputStream in =
-                    new BufferedInputStream(Files.newInputStream(file, CREATE));
+                    new BufferedInputStream(Files.newInputStream(file));
             BufferedReader reader =
                     new BufferedReader(new InputStreamReader(in));
 
             while(reader.ready())
             {
-                rec = reader.readLine();
+                String rec = reader.readLine();
 
                 if (rec == null || rec.isBlank()) {
                     continue;
@@ -45,13 +34,12 @@ public class FileCleaner
                     for(String word : splitLines)
                     {
                         String cleanedWord = word.replaceAll("[^A-Za-z]", "").toLowerCase();
-                        if (!cleanedWord.isEmpty()) {
+                        if (!cleanedWord.isEmpty() && !stopWords.contains(cleanedWord)) {
                             tempMap.merge(cleanedWord, 1, Integer::sum);
                         }
                     }
             }
             reader.close();
-            //call a method in the GUI to notify the user the file has been read
         }
         catch (FileNotFoundException e)
         {
@@ -65,37 +53,6 @@ public class FileCleaner
         }
 
         return tempMap;
-    }
-
-    public Map<String, Integer> chooseFile()
-    {
-        Map<String, Integer> tempMap = new TreeMap<>();
-
-        //call a method in the TagAnalyzer to display a prompt via the GUI
-        File workingDirectory = new File(System.getProperty("user.dir"));
-        chooser.setCurrentDirectory(workingDirectory);
-
-        if(chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-            selectedFile = chooser.getSelectedFile();
-            Path file = selectedFile.toPath();
-            tempMap = readFile(file);
-        }
-        return tempMap;
-    }
-
-    public Set<String> chooseStopWords()
-    {
-        Set<String> tempSet = new TreeSet<>();
-
-        File workingDirectory = new File(System.getProperty("user.dir"));
-        chooser2.setCurrentDirectory(workingDirectory);
-
-        if(chooser2.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-            selectedFile = chooser2.getSelectedFile();
-            Path file = selectedFile.toPath();
-            tempSet = readStopWords(file);
-        }
-        return tempSet;
     }
 
     public Set<String> readStopWords(Path file)
@@ -105,13 +62,19 @@ public class FileCleaner
         try
         {
             InputStream in =
-                    new BufferedInputStream(Files.newInputStream(file, CREATE));
+                    new BufferedInputStream(Files.newInputStream(file));
             BufferedReader reader =
                     new BufferedReader(new InputStreamReader(in));
 
             while(reader.ready())
             {
-                tempSet.add(reader.readLine());
+                String line = reader.readLine();
+
+                String cleanedLine = line.replaceAll("[^A-Za-z]", "").toLowerCase();
+
+                if(!cleanedLine.isEmpty()) {
+                    tempSet.add(cleanedLine);
+                }
             }
             reader.close();
         }
@@ -127,36 +90,5 @@ public class FileCleaner
         }
 
         return tempSet;
-    }
-
-    public Map<String, Integer> removeStopWords(Map<String, Integer> wordMap, Set<String> stopWordSet)
-    {
-        Map<String, Integer> result = new TreeMap<>(wordMap);
-
-        for(String stopWord : stopWordSet) {
-            result.remove(stopWord);
-        }
-
-        return result;
-    }
-
-    public void resetCleaner()
-    {
-        selectedFile = null;
-        rec = "";
-        chooser.setSelectedFile(null);
-        chooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
-    }
-
-    public JFileChooser getChooser() {
-        return chooser;
-    }
-
-    public File getSelectedFile() {
-        return selectedFile;
-    }
-
-    public String getRec() {
-        return rec;
     }
 }

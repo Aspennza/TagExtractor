@@ -1,4 +1,3 @@
-import javax.naming.ldap.Control;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -7,7 +6,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import static java.nio.file.StandardOpenOption.CREATE;
+import static java.nio.file.StandardOpenOption.*;
 
 public class FileSaver
 {
@@ -20,7 +19,7 @@ public class FileSaver
         try
         {
             OutputStream out =
-                    new BufferedOutputStream(Files.newOutputStream(fileLocation, CREATE));
+                    new BufferedOutputStream(Files.newOutputStream(fileLocation, CREATE, TRUNCATE_EXISTING, WRITE));
             BufferedWriter writer =
                     new BufferedWriter(new OutputStreamWriter(out));
 

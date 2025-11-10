@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import java.nio.file.Path;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -21,33 +22,38 @@ public class TagAnalyzer
     private Map<String, Integer> wordFreq;
     private FileCleaner cleaner;
     private FileSaver saver;
-    private File originalFile;
+    private FileChooserLauncher chooser1;
+    private FileChooserLauncher chooser2;
 
     public void start()
     {
         wordFreq = new TreeMap<>();
         cleaner = new FileCleaner();
         saver = new FileSaver();
+        chooser1 = new FileChooserLauncher();
+        chooser2 = new FileChooserLauncher();
         generateFrame();
     }
 
     public Map<String, Integer> outputMap()
     {
         JOptionPane.showMessageDialog(null, "First, choose the file you want to extract tags from. Then, select the file with the words you want to remove.");
-        wordFreq = cleaner.chooseFile();
-        originalFile = cleaner.getSelectedFile();
+        Path selectedFile = chooser1.chooseFile();
 
-        if(wordFreq != null && !wordFreq.isEmpty())
+        if(selectedFile != null)
         {
-            stopWords = cleaner.chooseStopWords();
-            if(stopWords != null && !stopWords.isEmpty())
+            Path stopWordFile = chooser2.chooseFile();
+
+            if(stopWordFile != null)
             {
-                wordFreq = cleaner.removeStopWords(wordFreq, stopWords);
-                filePnl.getFileTF().setText(originalFile.getName());
+                stopWords = cleaner.readStopWords(stopWordFile);
+                wordFreq = cleaner.readFile(selectedFile, stopWords);
+                filePnl.getFileTF().setText(selectedFile.getFileName().toString());
                 filePnl.getSelectBtn().setEnabled(false);
 
                 Set<String> keySet = wordFreq.keySet();
 
+                tagPnl.getTagTA().setText("");
                 for(String key : keySet)
                 {
                     tagPnl.getTagTA().append("Word: " + key + "; Frequency: " + wordFreq.get(key) + "\n");
@@ -160,6 +166,7 @@ public class TagAnalyzer
         filePnl.getSelectBtn().setEnabled(true);
         tagPnl.getTagTA().setText("");
         wordFreq = new TreeMap<>();
-        cleaner.resetCleaner();
+        chooser1.resetChooser();
+        chooser2.resetChooser();
     }
 }
