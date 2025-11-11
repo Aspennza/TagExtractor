@@ -35,4 +35,8 @@ public class TagPnl extends JPanel
     public JScrollPane getScroller() {
         return scroller;
     }
+
+    public void setTagTA(JTextArea tagTA) {
+        this.tagTA = tagTA;
+    }
 }

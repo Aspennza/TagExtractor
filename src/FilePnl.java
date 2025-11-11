@@ -72,4 +72,12 @@ public class FilePnl extends JPanel
     public TagAnalyzer getAnalyzer() {
         return analyzer;
     }
+
+    public void setFileTF(JTextField fileTF) {
+        this.fileTF = fileTF;
+    }
+
+    public void setSelectBtn(JButton selectBtn) {
+        this.selectBtn = selectBtn;
+    }
 }

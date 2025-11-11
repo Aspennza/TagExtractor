@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-//do Junit
 //do javadoc
 //do UML
 
@@ -166,5 +165,55 @@ public class TagAnalyzer
         wordFreq = new TreeMap<>();
         chooser1.resetChooser();
         chooser2.resetChooser();
+    }
+
+
+
+    public JFrame getFrame() {
+        return frame;
+    }
+
+    public TitlePnl getTitlePnl() {
+        return titlePnl;
+    }
+
+    public FilePnl getFilePnl() {
+        return filePnl;
+    }
+
+    public TagPnl getTagPnl() {
+        return tagPnl;
+    }
+
+    public ControlPnl getControlPnl() {
+        return controlPnl;
+    }
+
+    public Set<String> getStopWords() {
+        return stopWords;
+    }
+
+    public Map<String, Integer> getWordFreq() {
+        return wordFreq;
+    }
+
+    public FileCleaner getCleaner() {
+        return cleaner;
+    }
+
+    public FileSaver getSaver() {
+        return saver;
+    }
+
+    public FileChooserLauncher getChooser1() {
+        return chooser1;
+    }
+
+    public FileChooserLauncher getChooser2() {
+        return chooser2;
+    }
+
+    public void setWordFreq(Map<String, Integer> wordFreq) {
+        this.wordFreq = wordFreq;
     }
 }
