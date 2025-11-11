@@ -9,25 +9,41 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+/**
+ * Allows the creation of JPanels with a JButton for choosing a file and
+ * a JTextField for displaying its name.
+ * @author Zoe Aspenns aspennza@mail.uc.edu
+ */
 public class FilePnl extends JPanel
 {
+    //A JLabel for the fileTF
     JLabel fileLbl;
+
+    //A JTextField for displaying the name of the selected file
     JTextField fileTF;
+
+    //A JButton for selecting a file
     JButton selectBtn;
+
+    //A TagAnalyzer so that FilePnl can access the methods in TagAnalyzer
     TagAnalyzer analyzer;
 
+    //This constructor initializes the analyzer, sets the layout of FilePnl, initializes its label, text field, and button, and creates an ActionListener for selectBtn
     public FilePnl(TagAnalyzer analyzer)
     {
         this.analyzer = analyzer;
         setLayout(new GridBagLayout());
         setBorder(new CompoundBorder(new EtchedBorder(), new EmptyBorder(10, 10, 10, 10)));
 
+        //GridBagConstraints for the selectBtn
         GridBagConstraints gbc1 = new GridBagConstraints();
         gbc1.gridx = 0;
         gbc1.gridy = 0;
         gbc1.gridwidth = 1;
         gbc1.gridheight = 1;
         gbc1.fill = GridBagConstraints.BOTH;
+
+        //GridBagConstraints for the fileLbl
         GridBagConstraints gbc2 = new GridBagConstraints();
         gbc2.gridx = 1;
         gbc2.gridy = 0;
@@ -36,6 +52,8 @@ public class FilePnl extends JPanel
         gbc2.fill = GridBagConstraints.NONE;
         gbc2.anchor = GridBagConstraints.EAST;
         gbc2.insets = new Insets(15, 15, 15, 15);
+
+        //GridBagConstraints for the fileTF
         GridBagConstraints gbc3 = new GridBagConstraints();
         gbc3.gridx = 2;
         gbc3.gridy = 0;
