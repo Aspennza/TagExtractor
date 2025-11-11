@@ -5,13 +5,27 @@ import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
+/**
+ * Allows the creation of pre-designed JPanel objects with JButton
+ * controls for saving tags to a file, restarting the tag extractor,
+ * and quitting the program.
+ * @author Zoe Aspenns aspennza@mail.uc.edu
+ */
 public class ControlPnl extends JPanel
 {
+    //This JButton is used to save the filtered tags to a file
     JButton saveFileBtn;
+
+    //This JButton is used to clear program state and restart the program
     JButton reRunBtn;
+
+    //This JButton is used to quit the program
     JButton quitBtn;
+
+    //This TagAnalyzer allows the ControlPnl to call methods from TagAnalyzer
     TagAnalyzer analyzer;
 
+    //This constructor establishes the analyzer, gives the ControlPnl a layout, and establishes the functionality of each JButton
     public ControlPnl(TagAnalyzer analyzer) {
         this.analyzer = analyzer;
         setLayout(new GridLayout(1, 3));
@@ -30,7 +44,7 @@ public class ControlPnl extends JPanel
         add(reRunBtn);
 
         reRunBtn.addActionListener((ActionEvent ae) -> {
-            //This int tracks whether the user confirmed or denied they wanted to replay
+            //This int tracks whether the user confirmed or denied they wanted to restart the program
             int selection = JOptionPane.showConfirmDialog(null, "Are you sure you want to reset the program?", "Reset", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 
             //This algorithm determines whether to reset the program based on the user's input
