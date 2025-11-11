@@ -4,12 +4,23 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
 
+/**
+ * Allows the creation of pre-formatted JPanel objects for displaying a list of filtered
+ * tags and frequencies to a GUI.
+ * @author Zoe Aspenns aspennza@mail.uc.edu
+ */
 public class TagPnl extends JPanel
 {
+    //This JLabel acts as a label for the tagTA
     JLabel tagLbl;
+
+    //This JTextArea is used to display tags and frequencies
     JTextArea tagTA;
+
+    //This JScrollPane allows tagTA to scroll
     JScrollPane scroller;
 
+    //This constructor establishes the layout of the TagPnl and initializes the tagLbl, tagTA, and scroller
     public TagPnl()
     {
         setBorder(new CompoundBorder(new EtchedBorder(), new EmptyBorder(10, 10, 10, 10)));
