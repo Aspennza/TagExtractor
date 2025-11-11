@@ -9,20 +9,49 @@ import java.util.TreeMap;
 //do javadoc
 //do UML
 
+/**
+ * Allows the creation of objects for extracting useful tags from a file, displaying them to a GUI,
+ * and offering the option to save them to a file.
+ * @author Zoe Aspenns aspennza@mail.uc.edu
+ */
 public class TagAnalyzer
 {
+    //A JFrame for displaying the GUI components
     private JFrame frame;
+
+    //A TitlePnl object containing the logic for formatting the titlePnl
     private TitlePnl titlePnl;
+
+    //A FilePnl object containing the logic for formatting the filePnl
     private FilePnl filePnl;
+
+    //A TagPnl object containing the logic for formatting the tagPnl
     private TagPnl tagPnl;
+
+    //A ControlPnl object containing the logic for formatting the controlPnl
     private ControlPnl controlPnl;
+
+    //A Set<String> for storing the list of stop words
     private Set<String> stopWords;
+
+    //A Map<String, Integer> for storing words and their frequencies from a file
     private Map<String, Integer> wordFreq;
+
+    //A FileCleaner for reading a file, normalizing it, and filtering stop words
     private FileCleaner cleaner;
+
+    //A FileSaver for saving the list of tags and frequencies to a file
     private FileSaver saver;
+
+    //A FileChooserLauncher for prompting JFileChooser input
     private FileChooserLauncher chooser1;
+
+    //A FileChooserLauncher for prompting JFileChooser input
     private FileChooserLauncher chooser2;
 
+    /**
+     * This method initializes wordFreq, the cleaner, the saver, and the two FileChooserLaunchers, as well as establishing the JFrame
+     */
     public void start()
     {
         wordFreq = new TreeMap<>();
@@ -33,15 +62,21 @@ public class TagAnalyzer
         generateFrame();
     }
 
+    /**
+     * This method prompts the user to choose a file to search and a stop word file for filtering, filters the file, and outputs the result to the tagTA
+     * @return a Map<String, Integer> containing the list of words and frequencies
+     */
     public Map<String, Integer> outputMap()
     {
         JOptionPane.showMessageDialog(null, "First, choose the file you want to extract tags from. Then, select the file with the words you want to remove.");
         Path selectedFile = chooser1.chooseFile();
 
+        //This algorithm checks that the user chose a file before acting on it
         if(selectedFile != null)
         {
             Path stopWordFile = chooser2.chooseFile();
 
+            //This algorithm checks that the user chose a stop words file before acting on it
             if(stopWordFile != null)
             {
                 stopWords = cleaner.readStopWords(stopWordFile);
@@ -52,6 +87,8 @@ public class TagAnalyzer
                 Set<String> keySet = wordFreq.keySet();
 
                 tagPnl.getTagTA().setText("");
+
+                //This algorithm appends the words and frequencies to the text area
                 for(String key : keySet)
                 {
                     tagPnl.getTagTA().append("Word: " + key + "; Frequency: " + wordFreq.get(key) + "\n");
@@ -61,8 +98,13 @@ public class TagAnalyzer
         return wordFreq;
     }
 
+    /**
+     * This method establishes the JFrame, its layout, the panels, and other technicalities, like the size or visibility of the frame.
+     */
     public void generateFrame() {
         frame = new JFrame();
+
+        //GridBagConstraints for the titlePnl
         GridBagConstraints gbc1 = new GridBagConstraints();
         gbc1.gridx = 0;
         gbc1.gridy = 0;
@@ -70,6 +112,8 @@ public class TagAnalyzer
         gbc1.gridheight = 1;
         gbc1.weightx = 1;
         gbc1.fill = GridBagConstraints.BOTH;
+
+        //GridBagConstraints for the filePnl
         GridBagConstraints gbc2 = new GridBagConstraints();
         gbc2.gridx = 0;
         gbc2.gridy = 1;
@@ -77,6 +121,8 @@ public class TagAnalyzer
         gbc2.gridheight = 1;
         gbc2.weightx = 1;
         gbc2.fill = GridBagConstraints.BOTH;
+
+        //GridBagConstraints for the tagPnl
         GridBagConstraints gbc3 = new GridBagConstraints();
         gbc3.gridx = 0;
         gbc3.gridy = 2;
@@ -85,6 +131,8 @@ public class TagAnalyzer
         gbc3.weightx = 1;
         gbc3.weighty = 1;
         gbc3.fill = GridBagConstraints.BOTH;
+
+        //GridBagConstraints for the controlPnl
         GridBagConstraints gbc4 = new GridBagConstraints();
         gbc4.gridx = 0;
         gbc4.gridy = 5;
@@ -93,6 +141,7 @@ public class TagAnalyzer
         gbc4.weightx = 1;
         gbc4.fill = GridBagConstraints.BOTH;
 
+        //A panel for containing all other GUI elements
         JPanel mainPnl = new JPanel();
 
         //This Toolkit is used to find the screen size of the computer running the GUI
@@ -129,18 +178,22 @@ public class TagAnalyzer
         frame.setVisible(true);
     }
 
+    /**
+     * This method checks that a file has been effectively filtered, then allows the user to pick a file format to save the final tags and frequencies to.
+     */
     public void saveFile()
     {
         Object[] formatOptions = {"CSV", "JSON", "XML"};
 
+        //This algorithm checks that the user has previously called the file filtering methods before saving
         if(wordFreq == null || wordFreq.isEmpty() || stopWords == null || stopWords.isEmpty()) {
             JOptionPane.showMessageDialog(null, "You must select both a text file and a stop words file before saving.");
         }
         else {
-            //This int tracks whether the user confirmed or denied they wanted to replay
+            //This int tracks what format the user wants to save their file to
             int selection = JOptionPane.showOptionDialog(null, "What format would you like to save your file to?", "Save File", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, formatOptions, formatOptions[0]);
 
-            //This algorithm determines whether to reset the program based on the user's input
+            //This algorithm determines how to save the file based on the user's input
             if (selection == 0) {
                 saver.saveFile(wordFreq, 0);
                 JOptionPane.showMessageDialog(null, "Saving file...");
@@ -157,6 +210,9 @@ public class TagAnalyzer
         }
     }
 
+    /**
+     * This method clears all relevant text areas, Maps, file choosers, and settings between two program runs
+     */
     public void resetProgram()
     {
         filePnl.getFileTF().setText("");
@@ -166,8 +222,6 @@ public class TagAnalyzer
         chooser1.resetChooser();
         chooser2.resetChooser();
     }
-
-
 
     public JFrame getFrame() {
         return frame;
